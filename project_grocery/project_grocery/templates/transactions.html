@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}Transaction History - Grocery Shop{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-success text-center">Transaction History</h2>
+    
+    {% if transactions %}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {% for transaction_id, data in transactions.items() %}
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Transaction ID: <strong>{{ transaction_id }}</strong></h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Purchase Date:</strong> {{ data.purchased_at.strftime('%d %B %Y, %I:%M %p') }}</p>
+                        <h6>Items Purchased:</h6>
+                        <ul class="list-group">
+                            {% for item in data.purchased_items %}  {# Changed from "items" to "purchased_items" #}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ item.name }}
+                                <span class="badge bg-primary rounded-pill">Qty: {{ item.quantity }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p class="text-center text-muted mt-4">No transactions found.</p>
+    {% endif %}
+    
+    <div class="text-center mt-4">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

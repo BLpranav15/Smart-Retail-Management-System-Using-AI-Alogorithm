@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard - Grocery Recommendation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Welcome Message -->
+    <div class="text-center">
+        <h2 class="text-success">Welcome, {{ username }}!</h2>
+        <p class="text-muted">Discover the best grocery items tailored for you.</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" id="searchBox" placeholder="Search for products..." aria-label="Search">
+            </form>
+        </div>
+    </div>
+
+    <!-- Top Products Section -->
+    <div class="row mt-4" id="product-list">
+        {% for product in products %}
+        <div class="col-md-4 mb-4 product-card">
+            <div class="card shadow-sm">
+                <img src="/static/images/default-product.png" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-success">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- JavaScript for AJAX Search -->
+<script>
+    document.getElementById('searchBox').addEventListener('keyup', function () {
+        let searchQuery = this.value.trim();
+        fetch(`/search_products?query=${searchQuery}`)
+            .then(response => response.json())
+            .then(data => {
+                let productList = document.getElementById('product-list');
+                productList.innerHTML = "";  // Clear existing products
+
+                if (data.length === 0) {
+                    productList.innerHTML = "<p class='text-center text-muted'>No products found.</p>";
+                } else {
+                    data.forEach(product => {
+                        productList.innerHTML += `
+                            <div class="col-md-4 mb-4 product-card">
+                                <div class="card shadow-sm">
+                                    <img src="/static/images/default-product.png" class="card-img-top" alt="${product.name}">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">${product.name}</h5>
+                                        <a href="/product/${product.id}" class="btn btn-success">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    });
+</script>
+
+{% endblock %}

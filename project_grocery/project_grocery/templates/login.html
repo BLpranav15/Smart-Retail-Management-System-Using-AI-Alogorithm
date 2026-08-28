@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}Login - Grocery Recommendation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <!-- Login Card -->
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="text-center text-success">Login to Your Account</h2>
+                    <p class="text-center text-muted">Access your grocery recommendations.</p>
+
+                    <!-- Display Messages -->
+                    {% if message %}
+                        <div class="alert alert-{{ message_type }} text-center">{{ message }}</div>
+                    {% endif %}
+
+                    <!-- Login Form -->
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Login</button>
+                    </form>
+
+                    <!-- Signup Link -->
+                    <p class="text-center mt-3">
+                        Don't have an account? <a href="{{ url_for('signup') }}" class="text-primary">Sign up here</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

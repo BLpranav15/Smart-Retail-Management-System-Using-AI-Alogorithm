@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+
+{% block title %}My Cart - Grocery Recommendation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-success text-center">My Shopping Cart</h2>
+
+    {% if cart_items %}
+    <div class="table-responsive">
+        <table class="table table-striped mt-4">
+            <thead class="table-success">
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm remove-from-cart" data-cart-id="{{ item.id }}">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Buy Now Button -->
+    <div class="text-center mt-4">
+        <button id="buyNowButton" class="btn btn-success">Buy Now</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Continue Shopping</a>
+    </div>
+
+    {% else %}
+    <p class="text-center text-muted mt-4">Your cart is empty. <a href="{{ url_for('dashboard') }}">Start Shopping</a></p>
+    {% endif %}
+</div>
+
+<!-- JavaScript for Removing Cart Items & Buy Now -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let removeButtons = document.querySelectorAll(".remove-from-cart");
+
+        removeButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                let cartId = this.getAttribute("data-cart-id");
+
+                fetch("/remove_from_cart", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ cart_id: cartId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Item removed from cart!");
+                        location.reload();
+                    } else {
+                        alert("Failed to remove item. Please try again.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+
+        // Buy Now Button Click
+        document.getElementById("buyNowButton").addEventListener("click", function () {
+            fetch("/buy_now", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Purchase successful! Transaction ID: " + data.transaction_id);
+                    location.reload(); // Refresh cart after purchase
+                } else {
+                    alert("Failed to complete purchase. Please try again.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+</script>
+
+{% endblock %}

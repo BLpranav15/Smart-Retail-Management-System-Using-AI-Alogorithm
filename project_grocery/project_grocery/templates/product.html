@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ product.name }} - Product Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Product Detail Card -->
+            <div class="card shadow-lg">
+                <img src="/static/images/default-product.png" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h2 class="text-center text-success">{{ product.name }}</h2>
+                    <p class="text-muted text-center">Explore details about this grocery item.</p>
+
+                    <div class="text-center mt-3">
+                        <!-- Add to Cart Button -->
+                        <button class="btn btn-warning add-to-cart" data-product-id="{{ product.id }}">Add to Cart</button>
+                    </div>
+
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommended Products Section -->
+    <div class="container mt-5">
+        <h3 class="text-center text-success">You May Also Like</h3>
+        <div class="row">
+            {% for rec_product in recommended_products %}
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <img src="/static/images/default-product.png" class="card-img-top" alt="{{ rec_product.name }}">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ rec_product.name }}</h5>
+                        <a href="{{ url_for('product_detail', product_id=rec_product.id) }}" class="btn btn-primary">View Details</a>
+                        <button class="btn btn-warning add-to-cart mt-2" data-product-id="{{ rec_product.id }}">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for "Add to Cart" Functionality -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let addToCartButtons = document.querySelectorAll(".add-to-cart");
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                let productId = this.getAttribute("data-product-id");
+
+                fetch("/add_to_cart", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ product_id: productId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Product added to cart!");
+                    } else {
+                        alert("Failed to add product to cart. Please try again.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+    });
+</script>
+{% endblock %}
