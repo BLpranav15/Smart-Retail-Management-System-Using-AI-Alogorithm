@@ -1,34 +1,247 @@
 {% extends "layout.html" %}
 {% block title %}Home - Grocery Recommendation{% endblock %}
 
-{% block content %} 
-<div class="container mt-5">
+{% block content %}
+
+<style>
+    .hero-section {
+        padding: 60px 15px 40px;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .hero-text {
+        max-width: 750px;
+        margin: 20px auto;
+        font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .hero-image {
+        width: 100%;
+        max-width: 1000px;
+        height: auto;
+        display: block;
+        margin: 30px auto 0;
+        border-radius: 20px;
+        object-fit: cover;
+    }
+
+    .features-section {
+        padding: 40px 15px 70px;
+    }
+
+    .feature-card {
+        height: 100%;
+        padding: 30px 20px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .feature-image {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 20px;
+    }
+
+    .feature-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+
+    .feature-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 0;
+    }
+
+    /* Mobile */
+    @media (max-width: 575.98px) {
+        .hero-section {
+            padding: 35px 10px 25px;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .hero-text {
+            font-size: 0.95rem;
+            margin: 15px auto;
+        }
+
+        .hero-image {
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+
+        .features-section {
+            padding: 25px 10px 45px;
+        }
+
+        .feature-card {
+            padding: 25px 18px;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+        }
+
+        .feature-text {
+            font-size: 0.95rem;
+        }
+    }
+
+    /* Tablet */
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .hero-section {
+            padding-top: 45px;
+        }
+
+        .hero-image {
+            max-width: 90%;
+        }
+    }
+
+    /* Large desktop */
+    @media (min-width: 1200px) {
+        .hero-section {
+            padding-top: 75px;
+        }
+
+        .features-section {
+            padding-top: 50px;
+        }
+    }
+</style>
+
+<main>
+
     <!-- Hero Section -->
-    <div class="text-center">
-        <h1 class="display-4 text-success">Discover Your Perfect Grocery Picks!</h1>
-        <p class="lead text-muted">
-            Our smart recommendation system helps you find the best groceries based on your preferences.
-        </p>
-        <img src="/static/images/grocery-hero.jpg" alt="Grocery Recommendations" class="img-fluid rounded" style="max-width: 80%; height: auto;">
-    </div>
+    <section class="hero-section">
+        <div class="container">
+
+            <div class="text-center">
+
+                <h1 class="hero-title text-success">
+                    Discover Your Perfect Grocery Picks!
+                </h1>
+
+                <p class="hero-text text-muted">
+                    Our smart recommendation system helps you find the best
+                    groceries based on your preferences.
+                </p>
+
+                <img
+                    src="{{ url_for('static', filename='images/grocery-hero.jpg') }}"
+                    alt="Grocery Recommendations"
+                    class="hero-image img-fluid"
+                >
+
+            </div>
+
+        </div>
+    </section>
+
 
     <!-- Features Section -->
-    <div class="row mt-5 text-center">
-        <div class="col-md-4">
-            <img src="/static/images/personalized.jpg" alt="Personalized Recommendations" class="img-fluid mb-3" style="max-width: 80px;">
-            <h3 class="text-primary">Personalized Picks</h3>
-            <p class="text-muted">Receive grocery recommendations tailored to your shopping habits.</p>
+    <section class="features-section">
+
+        <div class="container">
+
+            <div class="row g-4">
+
+                <!-- Personalized Picks -->
+                <div class="col-12 col-md-4">
+
+                    <div class="feature-card text-center">
+
+                        <img
+                            src="{{ url_for('static', filename='images/personalized.jpg') }}"
+                            alt="Personalized Recommendations"
+                            class="feature-image"
+                        >
+
+                        <h2 class="feature-title text-primary">
+                            Personalized Picks
+                        </h2>
+
+                        <p class="feature-text text-muted">
+                            Receive grocery recommendations tailored to your
+                            shopping habits.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AI Suggestions -->
+                <div class="col-12 col-md-4">
+
+                    <div class="feature-card text-center">
+
+                        <img
+                            src="{{ url_for('static', filename='images/smart-algorithm.jpg') }}"
+                            alt="AI-Powered Suggestions"
+                            class="feature-image"
+                        >
+
+                        <h2 class="feature-title text-primary">
+                            AI-Powered Suggestions
+                        </h2>
+
+                        <p class="feature-text text-muted">
+                            Our advanced machine learning model predicts your
+                            grocery needs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Easy Shopping -->
+                <div class="col-12 col-md-4">
+
+                    <div class="feature-card text-center">
+
+                        <img
+                            src="{{ url_for('static', filename='images/easy-shopping.jpg') }}"
+                            alt="Seamless Shopping"
+                            class="feature-image"
+                        >
+
+                        <h2 class="feature-title text-primary">
+                            Seamless Shopping
+                        </h2>
+
+                        <p class="feature-text text-muted">
+                            Save time by getting smart recommendations for your
+                            next grocery trip.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
-        <div class="col-md-4">
-            <img src="/static/images/smart-algorithm.jpg" alt="AI-Powered Suggestions" class="img-fluid mb-3" style="max-width: 80px;">
-            <h3 class="text-primary">AI-Powered Suggestions</h3>
-            <p class="text-muted">Our advanced machine learning model predicts your grocery needs.</p>
-        </div>
-        <div class="col-md-4">
-            <img src="/static/images/easy-shopping.jpg" alt="Seamless Shopping" class="img-fluid mb-3" style="max-width: 80px;">
-            <h3 class="text-primary">Seamless Shopping</h3>
-            <p class="text-muted">Save time by getting smart recommendations for your next grocery trip.</p>
-        </div>
-    </div>
-</div>
+
+    </section>
+
+</main>
+
 {% endblock %}

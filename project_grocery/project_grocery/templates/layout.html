@@ -3,76 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
+
+    <title>{% block title %}Grocery Shop{% endblock %}</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            padding: 0;
-            height: 100vh;
-            background: linear-gradient(45deg, #3b7bff, #00bfbf, #00bf7b, #f5f239, #ff3765, #ff00bf);
+            min-height: 100vh;
+            background: linear-gradient(
+                45deg,
+                #3b7bff,
+                #00bfbf,
+                #00bf7b,
+                #f5f239,
+                #ff3765,
+                #ff00bf
+            );
             background-size: 400% 400%;
             animation: gradient 15s ease infinite;
+            overflow-x: hidden;
         }
 
         @keyframes gradient {
             0% {
                 background-position: 0% 50%;
             }
+
             50% {
                 background-position: 100% 50%;
             }
+
             100% {
                 background-position: 0% 50%;
             }
         }
+
+        /* Keep images responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Prevent long text from breaking the layout */
+        .container,
+        .container-fluid {
+            max-width: 100%;
+        }
+
+        /* Better touch-friendly navigation */
+        .navbar-nav .nav-link {
+            padding: 0.6rem 0.8rem;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 767.98px) {
+            .navbar-brand {
+                font-size: 1rem;
+            }
+
+            .navbar {
+                padding: 0.6rem 0;
+            }
+
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            .btn {
+                min-height: 44px;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Tablet adjustments */
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            .container {
+                max-width: 95%;
+            }
+        }
+
+        /* Large desktop */
+        @media (min-width: 1400px) {
+            .container {
+                max-width: 1320px;
+            }
+        }
     </style>
 </head>
+
 <body>
+
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">Grocery Shop</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <a class="navbar-brand fw-bold"
+               href="{{ url_for('index') }}">
+                Grocery Shop
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <div
+                class="collapse navbar-collapse"
+                id="navbarSupportedContent">
+
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+                        <a
+                            class="nav-link active"
+                            aria-current="page"
+                            href="{{ url_for('index') }}">
+                            Home
+                        </a>
                     </li>
 
                     {% if 'user_id' in session %}
-                        <!-- Links for Logged-in Users -->
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+                            <a
+                                class="nav-link"
+                                href="{{ url_for('dashboard') }}">
+                                Dashboard
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('view_cart') }}">Cart</a>
+                            <a
+                                class="nav-link"
+                                href="{{ url_for('view_cart') }}">
+                                Cart
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('transactions') }}">Transactions</a>
+                            <a
+                                class="nav-link"
+                                href="{{ url_for('transactions') }}">
+                                Transactions
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                            <a
+                                class="nav-link"
+                                href="{{ url_for('logout') }}">
+                                Logout
+                            </a>
                         </li>
+
                     {% else %}
-                        <!-- Links for Guests (Not Logged In) -->
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+                            <a
+                                class="nav-link"
+                                href="{{ url_for('login') }}">
+                                Login
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('signup') }}">Signup</a>
+                            <a
+                                class="nav-link"
+                                href="{{ url_for('signup') }}">
+                                Signup
+                            </a>
                         </li>
+
                     {% endif %}
+
                 </ul>
             </div>
         </div>
     </nav>
 
-    {% block content %}{% endblock %}
+    <!-- Page Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js">
+    </script>
+
 </body>
 </html>
