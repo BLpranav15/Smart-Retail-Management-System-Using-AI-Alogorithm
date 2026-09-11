@@ -17,7 +17,10 @@ app.secret_key = os.urandom(24).hex()
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 # Configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/grocery'  
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    'DATABASE_URL',
+    'mysql+pymysql://root:@localhost/grocery'
+) 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize extensions
